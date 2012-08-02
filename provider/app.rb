@@ -10,9 +10,13 @@ DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, 'sqlite:///Users/ken/Development/oauth2-sinatra-test/provider/db/development.db')
 
 class MyApp < Sinatra::Base
-  configure :production, :development do
+#  configure :production, :development do
+  configure do
     mime_type :json, 'application/json'
-    enable :logging
+    set :logging, true
+    set :dump_errors, true
+    set :raise_errors, true
+    set :show_exceptions, false
   end
 
   # Oauth2 stuff
@@ -24,10 +28,9 @@ class MyApp < Sinatra::Base
 
   oauth.store = :datamapper
 #  oauth.database = Mongo::Connection.new["my_db"]
-#  oauth.authenticator = lambda do |username, password|
-#    user = User.find(username)
-#    user if user && user.authenticated?(password)
-#  end
+  oauth.authenticator = lambda do |username, password|
+    'ken' if username == 'ken' and password == 'puppet'
+  end
 
   # Oauth specific stuff
   get '/oauth/authorize' do
