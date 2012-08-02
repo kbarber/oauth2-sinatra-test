@@ -1,0 +1,7 @@
+#ruby=ruby-1.8.7
+#ruby-gemset=oauth2-sinatra-test-consumer-cli
+
+source :rubygems
+
+gem 'oauth2'
+gem 'json'
