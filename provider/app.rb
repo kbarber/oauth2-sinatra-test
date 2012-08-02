@@ -3,6 +3,11 @@
 require 'rubygems'
 require 'sinatra/base'
 require 'rack/oauth2/sinatra'
+require 'rack/oauth2/models/datamapper'
+#require 'mongo'
+
+DataMapper::Logger.new($stdout, :debug)
+DataMapper.setup(:default, 'sqlite:///Users/ken/Development/oauth2-sinatra-test/provider/db/development.db')
 
 class MyApp < Sinatra::Base
   configure :production, :development do
@@ -17,7 +22,8 @@ class MyApp < Sinatra::Base
   # this path instead of the default.
   oauth.access_token_path = '/oauth/token'
 
-  oauth.database = Mongo::Connection.new["my_db"]
+  oauth.store = :datamapper
+#  oauth.database = Mongo::Connection.new["my_db"]
 #  oauth.authenticator = lambda do |username, password|
 #    user = User.find(username)
 #    user if user && user.authenticated?(password)

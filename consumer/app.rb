@@ -22,10 +22,14 @@ get "/auth/test" do
 end
 
 get '/auth/test/callback' do
-  access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
-  session[:access_token] = access_token.token
-  @message = "Successfully authenticated with the server"
-  erb :success
+  if @error = params[:error]
+    erb :failure
+  else
+    access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
+    session[:access_token] = access_token.token
+    @message = "Successfully authenticated with the server"
+    erb :success
+  end
 end
 
 get '/yet_another' do
@@ -38,9 +42,7 @@ get '/another_page' do
 end
 
 def get_response(url)
-  logger.info("access_token in session: #{session[:access_token]}")
   access_token = OAuth2::AccessToken.new(client, session[:access_token])
-  logger.info("access_token: #{access_token}")
   JSON.parse(access_token.get("/api/v1/#{url}").body)
 end
 
