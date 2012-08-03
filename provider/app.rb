@@ -60,7 +60,12 @@ class MyApp < Sinatra::Base
   # Sample of protected data
   get '/api/v1/data.json' do
     content_type :json
-    {'secret_data' => 'your_mum'}.to_json
+    {
+      'secret_data' => 'your_mum',
+      'authenticed?' => oauth.authenticated?,
+      'scope' => oauth.scope,
+      'user' => oauth.identity,
+    }.to_json
   end
 
   run! if app_file == $0
