@@ -15,3 +15,12 @@ client = Rack::OAuth2::Server.register(
   :id => '5017fd0247c2c027c8000001',
   :scope => []
 )
+
+client = Rack::OAuth2::Server.register(
+  :secret => '',
+  :display_name => 'puppet module face',
+  :link => 'http://localhost',
+  :redirect_uri => 'http://localhost',
+  :id => 'puppet-module-face',
+  :scope => []
+)
